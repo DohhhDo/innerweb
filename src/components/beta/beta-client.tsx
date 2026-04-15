@@ -3,7 +3,7 @@
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-type OS = "ios" | "android";
+type OS = "ios" | "android" | "harmony";
 
 interface Props {
   iosUrl: string;
@@ -17,7 +17,9 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
   const router = useRouter();
   const search = useSearchParams();
   const urlOs = search.get("os");
-  const [os, setOs] = useState<OS>(urlOs === "android" ? "android" : "ios");
+  const [os, setOs] = useState<OS>(
+    urlOs === "android" ? "android" : urlOs === "harmony" ? "harmony" : "ios",
+  );
   const [wechat, setWechat] = useState(false);
 
   useEffect(() => {
@@ -86,34 +88,22 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
           <div className="relative flex border-b border-[#E6E8EC]">
             <TabBtn active={os === "ios"} onClick={() => switchTo("ios")} label="iPhone · iPad" />
             <TabBtn active={os === "android"} onClick={() => switchTo("android")} label="Android" />
+            <TabBtn active={os === "harmony"} onClick={() => switchTo("harmony")} label="HarmonyOS" />
           </div>
           <span className="ml-auto hidden text-[13px] text-[#8A909B] md:inline">
-            {os === "ios" ? "通过 TestFlight 安装" : "下载 APK"}
+            {os === "ios" ? "通过 TestFlight 安装" : os === "android" ? "下载 APK" : "鸿蒙说明"}
           </span>
         </div>
 
         {/* Tutorial */}
         <div key={os} className="pt-12 animate-[betaFade_220ms_ease-out]">
-          {os === "ios" ? <IosGuide url={iosUrl} qr={iosQr} /> : <AndroidGuide url={androidUrl} qr={androidQr} />}
+          {os === "ios" && <IosGuide url={iosUrl} qr={iosQr} />}
+          {os === "android" && <AndroidGuide url={androidUrl} qr={androidQr} />}
+          {os === "harmony" && <HarmonyGuide />}
         </div>
 
         {/* Rule */}
         <hr className="mt-20 border-t border-[#E6E8EC]" />
-
-        {/* Harmony — inline, no box */}
-        <section className="py-10">
-          <div className="flex items-center gap-2 text-[13px] text-[#8A909B]">
-            <span className="h-1 w-1 rounded-full bg-[#29B6DA]" />
-            <span>鸿蒙用户</span>
-          </div>
-          <p className="mt-3 max-w-[560px] text-[15px] leading-[1.7] text-[#323844]">
-            纯血鸿蒙（HarmonyOS NEXT）不兼容 APK，鸿蒙版本正在开发中，预计
-            <span className="mx-1 font-semibold text-[#0A0F1E]">2026 年 5 月中旬</span>
-            开放内测。老版本鸿蒙（兼容 Android）可直接走 Android 流程。
-          </p>
-        </section>
-
-        <hr className="border-t border-[#E6E8EC]" />
 
         {/* Feedback — quiet strip */}
         <section className="py-12">
@@ -310,6 +300,53 @@ function AndroidGuide({ url, qr }: { url: string; qr: string }) {
         <>小米 / OPPO / vivo / 荣耀 可能再弹一次风险提示 — 继续安装即可。</>,
         <>装过旧版冲突？先卸载旧版再装；要保留数据在群里找我们。</>,
         <><b>HarmonyOS 纯血鸿蒙</b>暂不兼容 APK，见下方说明。</>,
+      ]} />
+    </div>
+  );
+}
+
+function HarmonyGuide() {
+  return (
+    <div className="flex flex-col gap-10">
+      <div className="rounded-2xl border border-[#FCE3DD] bg-gradient-to-br from-[#FFF6F3] to-[#FFEDE6] p-6">
+        <div className="flex items-center gap-5">
+          <div className="flex h-[88px] w-[88px] flex-none items-center justify-center rounded-[20px] bg-white shadow-[0_6px_18px_rgba(192,57,43,0.18)]">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="#E74C3C" strokeWidth="1.6" />
+              <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4z" stroke="#E74C3C" strokeWidth="1.6" />
+              <circle cx="12" cy="12" r="1.4" fill="#E74C3C" />
+            </svg>
+          </div>
+          <div className="flex-1">
+            <div className="text-[15px] text-[#7A4538]">鸿蒙用户请注意：</div>
+            <div
+              className="mt-1 text-[36px] font-bold leading-none tracking-[-0.01em] text-[#5A1F11]"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              暂未开放
+            </div>
+          </div>
+        </div>
+        <p className="mt-5 text-[17px] leading-[1.65] text-[#7A4538]">
+          鸿蒙版本仍在开发中，预计 <b className="text-[#5A1F11]">2026 年 5 月中旬</b> 开放内测。
+        </p>
+      </div>
+
+      <Step n="01" title="纯血鸿蒙（HarmonyOS NEXT）">
+        系统不兼容 Android APK，请等待我们发布鸿蒙原生版本，会在反馈群同步通知。
+      </Step>
+
+      <Step n="02" title="老版本鸿蒙（HarmonyOS 4 及以下）">
+        兼容 Android 应用，可直接切到 <b className="text-[#0A0F1E]">Android</b> 标签页按流程下载 APK 安装。
+      </Step>
+
+      <Step n="03" title="不确定自己是哪种鸿蒙？">
+        加入下方反馈群，把设备型号 + 系统版本发出来，我们帮你判断。
+      </Step>
+
+      <Footnote items={[
+        <>纯血鸿蒙的判断方法：<b>设置 → 关于本机</b>，看到 HarmonyOS NEXT 即为纯血。</>,
+        <>鸿蒙原生包发布后会在反馈群第一时间通知，无需另行安装 TestFlight 之类。</>,
       ]} />
     </div>
   );
