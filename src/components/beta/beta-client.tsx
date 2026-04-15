@@ -308,16 +308,16 @@ function AndroidGuide({ url, qr }: { url: string; qr: string }) {
 function HarmonyGuide() {
   return (
     <div className="flex flex-col gap-10">
-      <div className="rounded-2xl border border-[#FCE3DD] bg-gradient-to-br from-[#FFF6F3] to-[#FFEDE6] p-6">
-        <div className="text-[15px] text-[#7A4538]">鸿蒙用户请注意：</div>
+      <div className="rounded-2xl border border-[#CFEAF1] bg-gradient-to-br from-[#F2FAFC] to-[#E6F4F8] p-6">
+        <div className="text-[15px] text-[#3F6770]">鸿蒙原生版本</div>
         <div
-          className="mt-1 text-[36px] font-bold leading-none tracking-[-0.01em] text-[#5A1F11]"
+          className="mt-1 text-[36px] font-bold leading-none tracking-[-0.01em] text-[#0E3F4D]"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          暂未开放
+          正在加速开发中
         </div>
-        <p className="mt-5 text-[17px] leading-[1.65] text-[#7A4538]">
-          鸿蒙版本仍在开发中，预计 <b className="text-[#5A1F11]">2026 年 5 月中旬</b> 开放内测。
+        <p className="mt-5 text-[17px] leading-[1.65] text-[#3F6770]">
+          预计 <b className="text-[#0E3F4D]">2026 年 5 月中旬</b> 开放内测，发布时会在反馈群第一时间通知。
         </p>
       </div>
 
