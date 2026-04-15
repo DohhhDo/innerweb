@@ -247,7 +247,7 @@ function TestFlightCallout() {
       </div>
 
       <p className="mt-5 text-[14px] leading-[1.7] text-[#3B5374]">
-        Apple 官方测试工具，免费。先安装 TestFlight，再打开下方邀请链接即可加入内测 — 全程走 Apple 官方流程，安全合规。
+        Apple 官方测试工具，安全合规。装好后再打开下方邀请链接。
       </p>
 
       <div className="mt-4 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#0A2A52]">
