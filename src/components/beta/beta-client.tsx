@@ -40,7 +40,7 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#0A0F1E]" style={{ fontFamily: "var(--font-sans)" }}>
+    <div className="min-h-screen overflow-x-hidden bg-white text-[#0A0F1E]" style={{ fontFamily: "var(--font-sans)" }}>
       {wechat && (
         <div className="sticky top-20 z-40 border-y border-[#E6E8EC] bg-[#0A0F1E] text-white">
           <div className="mx-auto flex max-w-[720px] items-center gap-4 px-6 py-4 md:px-8">
@@ -84,9 +84,9 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
         </div>
 
         {/* Segment / tabs */}
-        <div className="mt-14 flex items-center">
-          <div className="relative flex border-b border-[#E6E8EC]">
-            <TabBtn active={os === "ios"} onClick={() => switchTo("ios")} label="iPhone · iPad" />
+        <div className="mt-14 flex items-center gap-4">
+          <div className="relative flex min-w-0 flex-1 border-b border-[#E6E8EC] md:flex-initial">
+            <TabBtn active={os === "ios"} onClick={() => switchTo("ios")} label="iPhone" />
             <TabBtn active={os === "android"} onClick={() => switchTo("android")} label="Android" />
             <TabBtn active={os === "harmony"} onClick={() => switchTo("harmony")} label="HarmonyOS" />
           </div>
@@ -142,7 +142,7 @@ function TabBtn({ active, onClick, label }: { active: boolean; onClick: () => vo
   return (
     <button
       onClick={onClick}
-      className={`relative px-5 pb-3 pt-1 text-[15px] font-medium transition-colors ${
+      className={`relative whitespace-nowrap px-3 pb-3 pt-1 text-[14px] font-medium transition-colors md:px-5 md:text-[15px] ${
         active ? "text-[#0A0F1E]" : "text-[#8A909B] hover:text-[#5B6472]"
       }`}
     >
@@ -160,7 +160,7 @@ function TabBtn({ active, onClick, label }: { active: boolean; onClick: () => vo
 /* Step row: big serif-weight numeral left, content right */
 function Step({ n, title, children }: { n: string; title: string; children?: React.ReactNode }) {
   return (
-    <div className="grid grid-cols-[64px_1fr] gap-x-6 gap-y-0 md:grid-cols-[96px_1fr]">
+    <div className="grid grid-cols-[52px_1fr] gap-x-4 gap-y-0 md:grid-cols-[96px_1fr] md:gap-x-6">
       <div
         className="text-[48px] md:text-[64px] font-medium leading-none tracking-tight text-[#0A0F1E] tabular-nums"
         style={{ fontFamily: "var(--font-display)" }}
@@ -198,7 +198,7 @@ function QrAside({ qr, label }: { qr: string; label: string }) {
       <img src={qr} alt="二维码" className="h-24 w-24 flex-none" />
       <div className="text-[13px] leading-[1.6] text-[#5B6472]">
         <div className="text-[#323844]">手机相机扫码 · 或浏览器打开</div>
-        <div className="mt-1 font-mono text-[12.5px] text-[#8A909B]">{label}</div>
+        <div className="mt-1 break-all font-mono text-[12.5px] text-[#8A909B]">{label}</div>
       </div>
     </div>
   );
