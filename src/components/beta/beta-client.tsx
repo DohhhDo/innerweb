@@ -10,10 +10,9 @@ interface Props {
   androidUrl: string;
   iosQr: string;
   androidQr: string;
-  pageQr: string;
 }
 
-function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
+function BetaInner({ iosUrl, androidUrl, iosQr, androidQr }: Props) {
   const router = useRouter();
   const search = useSearchParams();
   const urlOs = search.get("os");
@@ -44,18 +43,14 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
           <div className="mx-auto flex max-w-[720px] items-center gap-4 px-6 py-4 md:px-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={pageQr}
+              src="/page-qr.png"
               alt="本页二维码"
               className="h-20 w-20 flex-none rounded-sm bg-white p-1.5"
             />
             <div className="flex-1 text-[13.5px] leading-[1.55]">
-              <div className="text-[11px] uppercase tracking-[0.18em] text-[#29B6DA]" style={{ fontFamily: "var(--font-display)" }}>
-                Heads up
-              </div>
-              <div className="mt-1 font-semibold">在微信里装不了应用</div>
-              <div className="mt-0.5 text-white/70">
-                点右上角 <b className="text-white">⋯ → 在浏览器打开</b>，
-                <span className="md:inline">或长按左侧二维码识别。</span>
+              <div className="font-semibold text-[15px]">在微信里装不了应用</div>
+              <div className="mt-1 text-white/70">
+                点右上角 <b className="text-white">⋯ → 在浏览器打开</b>，或长按左侧二维码识别。
               </div>
             </div>
           </div>
@@ -67,10 +62,10 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
 
         {/* Kicker */}
         <div className="pt-36 md:pt-40">
-          <div className="flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase text-[#8A909B]" style={{ fontFamily: "var(--font-display)" }}>
+          <div className="flex items-center gap-2 text-[13px] text-[#8A909B]">
             <span className="h-1 w-1 rounded-full bg-[#29B6DA]" />
-            <span>Circlave / 蓝卡</span>
-            <span className="text-[#CFD3DA]">—</span>
+            <span>蓝卡</span>
+            <span className="text-[#CFD3DA]">/</span>
             <span>内测指南</span>
           </div>
 
@@ -78,10 +73,10 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
             className="mt-6 text-[44px] md:text-[56px] font-semibold leading-[1.08] tracking-[-0.02em]"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            Beta 安装
+            两分钟装好
           </h1>
           <p className="mt-4 max-w-[520px] text-[17px] leading-[1.65] text-[#5B6472]">
-            两分钟装好。选你的设备，按三步走 — 遇到问题在页尾的反馈群找我们。
+            选你的设备，按三步走 — 遇到问题在页尾的反馈群找我们。
           </p>
         </div>
 
@@ -91,8 +86,8 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
             <TabBtn active={os === "ios"} onClick={() => switchTo("ios")} label="iPhone · iPad" />
             <TabBtn active={os === "android"} onClick={() => switchTo("android")} label="Android" />
           </div>
-          <span className="ml-auto hidden text-[12px] uppercase tracking-[0.14em] text-[#8A909B] md:inline" style={{ fontFamily: "var(--font-display)" }}>
-            {os === "ios" ? "via TestFlight" : "via APK"}
+          <span className="ml-auto hidden text-[13px] text-[#8A909B] md:inline">
+            {os === "ios" ? "通过 TestFlight 安装" : "下载 APK"}
           </span>
         </div>
 
@@ -106,9 +101,9 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
 
         {/* Harmony — inline, no box */}
         <section className="py-10">
-          <div className="flex items-baseline gap-3">
-            <span className="text-[11px] uppercase tracking-[0.18em] text-[#8A909B]" style={{ fontFamily: "var(--font-display)" }}>Harmony OS</span>
+          <div className="flex items-center gap-2 text-[13px] text-[#8A909B]">
             <span className="h-1 w-1 rounded-full bg-[#29B6DA]" />
+            <span>鸿蒙用户</span>
           </div>
           <p className="mt-3 max-w-[560px] text-[15px] leading-[1.7] text-[#323844]">
             纯血鸿蒙（HarmonyOS NEXT）不兼容 APK，鸿蒙版本正在开发中，预计
@@ -129,9 +124,7 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
               className="h-32 w-32 flex-none rounded-md object-cover"
             />
             <div className="flex-1">
-              <div className="text-[11px] uppercase tracking-[0.18em] text-[#8A909B]" style={{ fontFamily: "var(--font-display)" }}>
-                Feedback
-              </div>
+              <div className="text-[13px] text-[#8A909B]">反馈群</div>
               <div className="mt-1 text-[17px] font-medium text-[#0A0F1E]">加入蓝卡内部测试群</div>
               <div className="mt-1 text-[14px] text-[#5B6472]">遇到问题、想吐槽、新功能建议，都在群里。</div>
               <div className="mt-2 text-[12px] text-[#A8AEB7]">二维码 7 天内有效，过期重新进入本页即可。</div>
@@ -213,10 +206,7 @@ function QrAside({ qr, label }: { qr: string; label: string }) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={qr} alt="二维码" className="h-24 w-24 flex-none" />
       <div className="text-[13px] leading-[1.6] text-[#5B6472]">
-        <div className="text-[11px] uppercase tracking-[0.18em] text-[#8A909B]" style={{ fontFamily: "var(--font-display)" }}>
-          Scan
-        </div>
-        <div className="mt-1 text-[#323844]">手机相机扫码 · 或浏览器打开</div>
+        <div className="text-[#323844]">手机相机扫码 · 或浏览器打开</div>
         <div className="mt-1 font-mono text-[12.5px] text-[#8A909B]">{label}</div>
       </div>
     </div>
@@ -279,9 +269,7 @@ function AndroidGuide({ url, qr }: { url: string; qr: string }) {
 function Footnote({ items }: { items: React.ReactNode[] }) {
   return (
     <div className="border-t border-[#E6E8EC] pt-6">
-      <div className="text-[11px] uppercase tracking-[0.18em] text-[#8A909B]" style={{ fontFamily: "var(--font-display)" }}>
-        可能遇到 · Notes
-      </div>
+      <div className="text-[13px] text-[#8A909B]">可能遇到</div>
       <ul className="mt-4 space-y-2.5">
         {items.map((it, i) => (
           <li key={i} className="flex gap-3 text-[13.5px] leading-[1.7] text-[#5B6472]">
