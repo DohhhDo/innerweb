@@ -309,23 +309,12 @@ function HarmonyGuide() {
   return (
     <div className="flex flex-col gap-10">
       <div className="rounded-2xl border border-[#FCE3DD] bg-gradient-to-br from-[#FFF6F3] to-[#FFEDE6] p-6">
-        <div className="flex items-center gap-5">
-          <div className="flex h-[88px] w-[88px] flex-none items-center justify-center rounded-[20px] bg-white shadow-[0_6px_18px_rgba(192,57,43,0.18)]">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="9" stroke="#E74C3C" strokeWidth="1.6" />
-              <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4z" stroke="#E74C3C" strokeWidth="1.6" />
-              <circle cx="12" cy="12" r="1.4" fill="#E74C3C" />
-            </svg>
-          </div>
-          <div className="flex-1">
-            <div className="text-[15px] text-[#7A4538]">鸿蒙用户请注意：</div>
-            <div
-              className="mt-1 text-[36px] font-bold leading-none tracking-[-0.01em] text-[#5A1F11]"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              暂未开放
-            </div>
-          </div>
+        <div className="text-[15px] text-[#7A4538]">鸿蒙用户请注意：</div>
+        <div
+          className="mt-1 text-[36px] font-bold leading-none tracking-[-0.01em] text-[#5A1F11]"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
+          暂未开放
         </div>
         <p className="mt-5 text-[17px] leading-[1.65] text-[#7A4538]">
           鸿蒙版本仍在开发中，预计 <b className="text-[#5A1F11]">2026 年 5 月中旬</b> 开放内测。
