@@ -301,6 +301,19 @@ function QrAside({ qr, label }: { qr: string; label: string }) {
   );
 }
 
+function IosReturnReminder() {
+  return (
+    <div className="rounded-2xl border border-[#BFD9FF] bg-[#F7FBFF] px-5 py-4 text-[#21476F]">
+      <div className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#3A7CC9]">
+        先下载，再回来点链接
+      </div>
+      <p className="mt-2 text-[15px] leading-[1.65]">
+        先从 App Store 安装 <b className="text-[#0A2A52]">TestFlight</b>。下载完成后，请回到当前页面，再点下面的邀请链接加入内测。
+      </p>
+    </div>
+  );
+}
+
 function TestFlightCallout() {
   return (
     <a
@@ -334,7 +347,7 @@ function TestFlightCallout() {
       </div>
 
       <p className="mt-5 text-[17px] leading-[1.65] text-[#3B5374]">
-        Apple 官方测试工具，安全合规。装好后再打开下方邀请链接。
+        Apple 官方测试工具，安全合规。先装它，装完请回到本页继续下一步。
       </p>
 
       <div className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#0A2A52]">
@@ -350,14 +363,16 @@ function TestFlightCallout() {
 function IosGuide({ url, qr }: { url: string; qr: string }) {
   return (
     <div className="flex flex-col gap-12">
+      <IosReturnReminder />
+
       <TestFlightCallout />
 
-      <Step n="01" title="先装 TestFlight">
-        打开 <b className="text-[#0A0F1E]">App Store</b> 搜索 <b className="text-[#0A0F1E]">TestFlight</b>，或直接点上方的「去 App Store 安装」。Apple 官方 App，免费。
+      <Step n="01" title="先下载并安装 TestFlight">
+        打开 <b className="text-[#0A0F1E]">App Store</b> 搜索 <b className="text-[#0A0F1E]">TestFlight</b>，或直接点上方的「去 App Store 安装」。Apple 官方 App，免费。装好后回到本页继续下一步。
       </Step>
 
-      <Step n="02" title="打开邀请链接">
-        点下方按钮直接前往，或用 Safari 打开，也可以用 iPhone 相机扫码。
+      <Step n="02" title="回到本页，再打开邀请链接">
+        装好 TestFlight 后，再点下方按钮直接前往；也可以用 Safari 打开，或用 iPhone 相机扫码。
         <InlineCTA href={url} label="前往 TestFlight" />
         <QrAside qr={qr} label="testflight.apple.com/join/39TDzfY9" />
       </Step>
