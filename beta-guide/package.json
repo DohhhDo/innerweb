@@ -1,0 +1,15 @@
+{
+  "name": "lanka-beta-guide",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "export": "node export.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}

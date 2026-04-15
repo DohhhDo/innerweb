@@ -1,5 +1,9 @@
 # deps
 /node_modules
+**/node_modules
+
+# beta-guide generated outputs
+/beta-guide/dist
 /.pnp
 .pnp.*
 .yarn/*

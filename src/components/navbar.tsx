@@ -11,6 +11,7 @@ const NAV_ITEMS = [
 ];
 
 const DARK_PAGES: string[] = ["/", "/about"];
+// /beta renders a white page; navbar already defaults to white here.
 const HIDDEN_PAGES: string[] = ["/this-is"];
 
 export function Navbar() {

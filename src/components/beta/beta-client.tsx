@@ -1,0 +1,305 @@
+"use client";
+
+import { useEffect, useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+type OS = "ios" | "android";
+
+interface Props {
+  iosUrl: string;
+  androidUrl: string;
+  iosQr: string;
+  androidQr: string;
+  pageQr: string;
+}
+
+function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
+  const router = useRouter();
+  const search = useSearchParams();
+  const urlOs = search.get("os");
+  const [os, setOs] = useState<OS>(urlOs === "android" ? "android" : "ios");
+  const [wechat, setWechat] = useState(false);
+
+  useEffect(() => {
+    const ua = navigator.userAgent;
+    setWechat(/MicroMessenger/i.test(ua));
+    if (!urlOs) {
+      if (/Android/i.test(ua)) setOs("android");
+      else if (/iPhone|iPad|iPod/i.test(ua)) setOs("ios");
+    }
+  }, [urlOs]);
+
+  const switchTo = (next: OS) => {
+    if (next === os) return;
+    setOs(next);
+    const params = new URLSearchParams(Array.from(search.entries()));
+    params.set("os", next);
+    router.replace(`/beta?${params.toString()}`, { scroll: false });
+  };
+
+  return (
+    <div className="min-h-screen bg-white text-[#0A0F1E]" style={{ fontFamily: "var(--font-sans)" }}>
+      {wechat && (
+        <div className="sticky top-0 z-40 border-b border-[#E6E8EC] bg-[#0A0F1E] text-white">
+          <div className="mx-auto flex max-w-[720px] items-center gap-4 px-6 py-4 md:px-8">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={pageQr}
+              alt="本页二维码"
+              className="h-20 w-20 flex-none rounded-sm bg-white p-1.5"
+            />
+            <div className="flex-1 text-[13.5px] leading-[1.55]">
+              <div className="text-[11px] uppercase tracking-[0.18em] text-[#29B6DA]" style={{ fontFamily: "var(--font-display)" }}>
+                Heads up
+              </div>
+              <div className="mt-1 font-semibold">在微信里装不了应用</div>
+              <div className="mt-0.5 text-white/70">
+                点右上角 <b className="text-white">⋯ → 在浏览器打开</b>，
+                <span className="md:inline">或长按左侧二维码识别。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Column container — magazine width */}
+      <div className="mx-auto max-w-[720px] px-6 md:px-8">
+
+        {/* Kicker */}
+        <div className="pt-36 md:pt-40">
+          <div className="flex items-center gap-2 text-[12px] tracking-[0.14em] uppercase text-[#8A909B]" style={{ fontFamily: "var(--font-display)" }}>
+            <span className="h-1 w-1 rounded-full bg-[#29B6DA]" />
+            <span>Circlave / 蓝卡</span>
+            <span className="text-[#CFD3DA]">—</span>
+            <span>内测指南</span>
+          </div>
+
+          <h1
+            className="mt-6 text-[44px] md:text-[56px] font-semibold leading-[1.08] tracking-[-0.02em]"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Beta 安装
+          </h1>
+          <p className="mt-4 max-w-[520px] text-[17px] leading-[1.65] text-[#5B6472]">
+            两分钟装好。选你的设备，按三步走 — 遇到问题在页尾的反馈群找我们。
+          </p>
+        </div>
+
+        {/* Segment / tabs */}
+        <div className="mt-14 flex items-center">
+          <div className="relative flex border-b border-[#E6E8EC]">
+            <TabBtn active={os === "ios"} onClick={() => switchTo("ios")} label="iPhone · iPad" />
+            <TabBtn active={os === "android"} onClick={() => switchTo("android")} label="Android" />
+          </div>
+          <span className="ml-auto hidden text-[12px] uppercase tracking-[0.14em] text-[#8A909B] md:inline" style={{ fontFamily: "var(--font-display)" }}>
+            {os === "ios" ? "via TestFlight" : "via APK"}
+          </span>
+        </div>
+
+        {/* Tutorial */}
+        <div key={os} className="pt-12 animate-[betaFade_220ms_ease-out]">
+          {os === "ios" ? <IosGuide url={iosUrl} qr={iosQr} /> : <AndroidGuide url={androidUrl} qr={androidQr} />}
+        </div>
+
+        {/* Rule */}
+        <hr className="mt-20 border-t border-[#E6E8EC]" />
+
+        {/* Harmony — inline, no box */}
+        <section className="py-10">
+          <div className="flex items-baseline gap-3">
+            <span className="text-[11px] uppercase tracking-[0.18em] text-[#8A909B]" style={{ fontFamily: "var(--font-display)" }}>Harmony OS</span>
+            <span className="h-1 w-1 rounded-full bg-[#29B6DA]" />
+          </div>
+          <p className="mt-3 max-w-[560px] text-[15px] leading-[1.7] text-[#323844]">
+            纯血鸿蒙（HarmonyOS NEXT）不兼容 APK，鸿蒙版本正在开发中，预计
+            <span className="mx-1 font-semibold text-[#0A0F1E]">2026 年 5 月中旬</span>
+            开放内测。老版本鸿蒙（兼容 Android）可直接走 Android 流程。
+          </p>
+        </section>
+
+        <hr className="border-t border-[#E6E8EC]" />
+
+        {/* Feedback — quiet strip */}
+        <section className="py-12">
+          <div className="flex items-center gap-6">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/feedback-qr.jpg"
+              alt="蓝卡内部测试群二维码"
+              className="h-32 w-32 flex-none rounded-md object-cover"
+            />
+            <div className="flex-1">
+              <div className="text-[11px] uppercase tracking-[0.18em] text-[#8A909B]" style={{ fontFamily: "var(--font-display)" }}>
+                Feedback
+              </div>
+              <div className="mt-1 text-[17px] font-medium text-[#0A0F1E]">加入蓝卡内部测试群</div>
+              <div className="mt-1 text-[14px] text-[#5B6472]">遇到问题、想吐槽、新功能建议，都在群里。</div>
+              <div className="mt-2 text-[12px] text-[#A8AEB7]">二维码 7 天内有效，过期重新进入本页即可。</div>
+            </div>
+          </div>
+        </section>
+
+        <p className="pb-16 text-center text-[12px] text-[#A8AEB7]">
+          感谢你成为蓝卡最早的一批体验者。
+        </p>
+      </div>
+
+      <style jsx global>{`
+        @keyframes betaFade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function TabBtn({ active, onClick, label }: { active: boolean; onClick: () => void; label: string }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`relative px-5 pb-3 pt-1 text-[15px] font-medium transition-colors ${
+        active ? "text-[#0A0F1E]" : "text-[#8A909B] hover:text-[#5B6472]"
+      }`}
+    >
+      {label}
+      <span
+        className={`absolute bottom-[-1px] left-0 right-0 h-[2px] bg-[#29B6DA] transition-transform duration-200 ${
+          active ? "scale-x-100" : "scale-x-0"
+        }`}
+        style={{ transformOrigin: "center" }}
+      />
+    </button>
+  );
+}
+
+/* Step row: big serif-weight numeral left, content right */
+function Step({ n, title, children }: { n: string; title: string; children?: React.ReactNode }) {
+  return (
+    <div className="grid grid-cols-[64px_1fr] gap-x-6 gap-y-0 md:grid-cols-[96px_1fr]">
+      <div
+        className="text-[48px] md:text-[64px] font-medium leading-none tracking-tight text-[#0A0F1E] tabular-nums"
+        style={{ fontFamily: "var(--font-display)" }}
+      >
+        {n}
+      </div>
+      <div>
+        <div className="text-[22px] font-semibold leading-snug text-[#0A0F1E]">{title}</div>
+        {children && <div className="mt-3 text-[15.5px] leading-[1.7] text-[#323844]">{children}</div>}
+      </div>
+    </div>
+  );
+}
+
+function InlineCTA({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group mt-4 inline-flex items-center gap-2 border-b border-[#29B6DA] pb-0.5 text-[15.5px] font-semibold text-[#0A0F1E] transition-colors hover:text-[#29B6DA]"
+    >
+      {label}
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+        <path d="M7 17L17 7M8 7h9v9" />
+      </svg>
+    </a>
+  );
+}
+
+function QrAside({ qr, label }: { qr: string; label: string }) {
+  return (
+    <div className="mt-5 flex items-center gap-4 border-t border-[#E6E8EC] pt-5">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={qr} alt="二维码" className="h-24 w-24 flex-none" />
+      <div className="text-[13px] leading-[1.6] text-[#5B6472]">
+        <div className="text-[11px] uppercase tracking-[0.18em] text-[#8A909B]" style={{ fontFamily: "var(--font-display)" }}>
+          Scan
+        </div>
+        <div className="mt-1 text-[#323844]">手机相机扫码 · 或浏览器打开</div>
+        <div className="mt-1 font-mono text-[12.5px] text-[#8A909B]">{label}</div>
+      </div>
+    </div>
+  );
+}
+
+function IosGuide({ url, qr }: { url: string; qr: string }) {
+  return (
+    <div className="flex flex-col gap-12">
+      <Step n="01" title="先装 TestFlight">
+        打开 <b className="text-[#0A0F1E]">App Store</b> 搜索 <b className="text-[#0A0F1E]">TestFlight</b>，点「获取」。Apple 官方 App，免费。
+      </Step>
+
+      <Step n="02" title="打开邀请链接">
+        点下方按钮直接前往，或用 Safari 打开，也可以用 iPhone 相机扫码。
+        <InlineCTA href={url} label="前往 TestFlight" />
+        <QrAside qr={qr} label="testflight.apple.com/join/39TDzfY9" />
+      </Step>
+
+      <Step n="03" title="接受 → 安装">
+        跳到 TestFlight 后点 <b className="text-[#0A0F1E]">Accept</b>，再点 <b className="text-[#0A0F1E]">Install</b>，回桌面打开蓝卡。
+      </Step>
+
+      <Footnote items={[
+        <>提示「<b>不接受新的测试人员</b>」 — 名额满了，到反馈群找我们扩容。</>,
+        <>提示「<b>此 Beta 已过期</b>」 — TF 每版 90 天有效期，等新版即可。</>,
+        <><b>不需要</b>去「设置 → VPN 与设备管理」信任开发者（那是企业签的流程）。</>,
+        <>系统要求 iOS 14.5 及以上。</>,
+      ]} />
+    </div>
+  );
+}
+
+function AndroidGuide({ url, qr }: { url: string; qr: string }) {
+  return (
+    <div className="flex flex-col gap-12">
+      <Step n="01" title="浏览器下载安装包">
+        点下方按钮直接下载，或用 <b className="text-[#0A0F1E]">系统浏览器</b>（Chrome / 夸克 / 自带）扫码。微信里下不了。
+        <InlineCTA href={url} label="下载 APK" />
+        <QrAside qr={qr} label="cirvlave-v1.0.0-build1.apk" />
+      </Step>
+
+      <Step n="02" title="允许「未知来源」">
+        点安装时系统会提示，跳到设置 <b className="text-[#0A0F1E]">允许当前浏览器安装应用</b>，返回继续。
+      </Step>
+
+      <Step n="03" title="安装 → 打开">
+        若提示「安全扫描 / 风险」，选 <b className="text-[#0A0F1E]">仍要安装</b>。按钮是灰的？等 5–10 秒。
+      </Step>
+
+      <Footnote items={[
+        <>小米 / OPPO / vivo / 荣耀 可能再弹一次风险提示 — 继续安装即可。</>,
+        <>装过旧版冲突？先卸载旧版再装；要保留数据在群里找我们。</>,
+        <><b>HarmonyOS 纯血鸿蒙</b>暂不兼容 APK，见下方说明。</>,
+      ]} />
+    </div>
+  );
+}
+
+function Footnote({ items }: { items: React.ReactNode[] }) {
+  return (
+    <div className="border-t border-[#E6E8EC] pt-6">
+      <div className="text-[11px] uppercase tracking-[0.18em] text-[#8A909B]" style={{ fontFamily: "var(--font-display)" }}>
+        可能遇到 · Notes
+      </div>
+      <ul className="mt-4 space-y-2.5">
+        {items.map((it, i) => (
+          <li key={i} className="flex gap-3 text-[13.5px] leading-[1.7] text-[#5B6472]">
+            <span className="flex-none text-[#A8AEB7] tabular-nums" style={{ fontFamily: "var(--font-display)" }}>
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span>{it}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export function BetaClient(props: Props) {
+  return (
+    <Suspense fallback={null}>
+      <BetaInner {...props} />
+    </Suspense>
+  );
+}
