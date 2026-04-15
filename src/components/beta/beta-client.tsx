@@ -40,24 +40,7 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr }: Props) {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-white text-[#0A0F1E]" style={{ fontFamily: "var(--font-sans)" }}>
-      {wechat && (
-        <div className="sticky top-20 z-40 border-y border-[#E6E8EC] bg-[#0A0F1E] text-white">
-          <div className="mx-auto flex max-w-[720px] items-center gap-4 px-6 py-4 md:px-8">
-            <div className="flex flex-none items-center gap-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/browser-safari.webp" alt="Safari" className="h-12 w-12" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/browser-edge.png" alt="Edge" className="h-12 w-12" />
-            </div>
-            <div className="min-w-0 flex-1 text-[13.5px] leading-[1.55]">
-              <div className="text-[15px] font-semibold">在微信里装不了应用</div>
-              <div className="mt-1 text-white/70">
-                点右上角 <b className="text-white">⋯ → 在浏览器打开</b>（iOS 选 Safari，Android 选 Edge / Chrome / 自带）。
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {wechat && <WechatBlocker />}
 
       {/* Column container — magazine width */}
       <div className="mx-auto max-w-[720px] px-6 md:px-8">
@@ -133,6 +116,121 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr }: Props) {
           to { opacity: 1; }
         }
       `}</style>
+    </div>
+  );
+}
+
+function WechatBlocker() {
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // ignore
+    }
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex flex-col overflow-hidden bg-[#0A0F1E] text-white"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* Arrow → top-right pointer */}
+      <div className="pointer-events-none absolute right-4 top-3 flex flex-col items-end gap-1 md:right-8 md:top-6">
+        <svg
+          width="84"
+          height="84"
+          viewBox="0 0 120 120"
+          fill="none"
+          className="text-[#29B6DA]"
+        >
+          <path
+            d="M18 92 C 38 70, 60 48, 100 26"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeDasharray="6 6"
+            fill="none"
+          />
+          <path
+            d="M92 20 L104 24 L100 36"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+        </svg>
+        <span className="mr-2 text-[13px] font-medium text-[#29B6DA]">点这里 ⋯</span>
+      </div>
+
+      {/* Content */}
+      <div className="mx-auto flex w-full max-w-[520px] flex-1 flex-col items-center justify-center px-6 text-center">
+        <div className="text-[13px] uppercase tracking-[0.2em] text-[#29B6DA]">Heads up</div>
+        <h2
+          className="mt-4 text-[32px] font-bold leading-[1.2] tracking-[-0.01em] md:text-[40px]"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
+          请在浏览器中打开
+        </h2>
+        <p className="mt-4 text-[15px] leading-[1.65] text-white/70">
+          微信内打不开 TestFlight，也下载不了 APK —— 这份安装指南需要在真正的浏览器里才能用。
+        </p>
+
+        <div className="mt-8 flex items-center gap-5">
+          <div className="flex flex-col items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/browser-safari.webp" alt="Safari" className="h-14 w-14" />
+            <span className="text-[12px] text-white/60">iPhone · Safari</span>
+          </div>
+          <div className="h-10 w-px bg-white/15" />
+          <div className="flex flex-col items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/browser-edge.png" alt="Edge" className="h-14 w-14 rounded-full bg-white p-1" />
+            <span className="text-[12px] text-white/60">Android · Edge / Chrome</span>
+          </div>
+        </div>
+
+        <div className="mt-10 space-y-2 text-[14px] text-white/70">
+          <div>① 点击右上角 <b className="text-white">⋯</b> 菜单</div>
+          <div>② 选择 <b className="text-white">在浏览器打开</b></div>
+        </div>
+
+        <button
+          onClick={copy}
+          className="mt-10 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-[14px] font-medium text-white transition hover:bg-white/10 active:scale-95"
+        >
+          {copied ? (
+            <>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12l5 5L20 7" />
+              </svg>
+              已复制，粘贴到浏览器打开
+            </>
+          ) : (
+            <>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="9" y="9" width="12" height="12" rx="2" />
+                <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+              </svg>
+              复制链接
+            </>
+          )}
+        </button>
+      </div>
+
+      <div className="pb-8 text-center text-[11px] text-white/30">
+        CIRCLAVE · 蓝卡内测
+      </div>
     </div>
   );
 }
