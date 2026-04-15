@@ -246,11 +246,11 @@ function TestFlightCallout() {
         </span>
       </div>
 
-      <p className="mt-5 text-[14px] leading-[1.7] text-[#3B5374]">
+      <p className="mt-5 text-[17px] leading-[1.65] text-[#3B5374]">
         Apple 官方测试工具，安全合规。装好后再打开下方邀请链接。
       </p>
 
-      <div className="mt-4 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#0A2A52]">
+      <div className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#0A2A52]">
         去 App Store 安装
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
           <path d="M7 17L17 7M8 7h9v9" />
