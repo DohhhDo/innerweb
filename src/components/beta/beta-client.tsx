@@ -196,7 +196,7 @@ function QrAside({ qr, label }: { qr: string; label: string }) {
     <div className="mt-5 flex items-center gap-4 border-t border-[#E6E8EC] pt-5">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={qr} alt="二维码" className="h-24 w-24 flex-none" />
-      <div className="text-[13px] leading-[1.6] text-[#5B6472]">
+      <div className="min-w-0 flex-1 text-[13px] leading-[1.6] text-[#5B6472]">
         <div className="text-[#323844]">手机相机扫码 · 或浏览器打开</div>
         <div className="mt-1 break-all font-mono text-[12.5px] text-[#8A909B]">{label}</div>
       </div>
