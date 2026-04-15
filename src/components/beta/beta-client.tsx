@@ -42,7 +42,7 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
   return (
     <div className="min-h-screen bg-white text-[#0A0F1E]" style={{ fontFamily: "var(--font-sans)" }}>
       {wechat && (
-        <div className="sticky top-0 z-40 border-b border-[#E6E8EC] bg-[#0A0F1E] text-white">
+        <div className="sticky top-20 z-40 border-y border-[#E6E8EC] bg-[#0A0F1E] text-white">
           <div className="mx-auto flex max-w-[720px] items-center gap-4 px-6 py-4 md:px-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
