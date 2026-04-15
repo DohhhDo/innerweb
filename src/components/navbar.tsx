@@ -26,7 +26,7 @@ export function Navbar() {
         isDark ? "" : "border-b border-black/5 bg-white"
       }`}
     >
-      <nav className="flex h-20 items-center px-16">
+      <nav className="flex h-20 items-center px-4 md:px-16">
         {/* Logo — flush left */}
         <Link href="/" className="mr-auto flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
