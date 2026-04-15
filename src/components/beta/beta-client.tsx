@@ -220,33 +220,37 @@ function TestFlightCallout() {
       href="https://apps.apple.com/us/app/testflight/id899247664"
       target="_blank"
       rel="noopener noreferrer"
-      className="group block rounded-2xl border border-[#D6E7FF] bg-gradient-to-br from-[#F4F9FF] to-[#EAF2FF] p-5 transition hover:border-[#9CC4FF] hover:from-[#EEF5FF] hover:to-[#E0EBFF]"
+      className="group block rounded-2xl border border-[#D6E7FF] bg-gradient-to-br from-[#F4F9FF] to-[#EAF2FF] p-6 transition hover:border-[#9CC4FF] hover:from-[#EEF5FF] hover:to-[#E0EBFF]"
     >
+      {/* Top row: icon + title aligned */}
       <div className="flex items-center gap-5">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/testflight-icon.jpeg"
           alt="TestFlight"
-          className="h-[72px] w-[72px] flex-none rounded-[18px] shadow-[0_4px_14px_rgba(31,87,184,0.18)]"
+          className="h-[88px] w-[88px] flex-none rounded-[20px] shadow-[0_6px_18px_rgba(31,87,184,0.22)]"
         />
         <div className="flex-1">
-          <div className="flex items-center gap-2 text-[12px] text-[#3B82C4]">
-            <span>苹果官方 · 流程合规</span>
+          <div className="text-[15px] text-[#3B5374]">iOS 用户需要先安装：</div>
+          <div
+            className="mt-1 text-[36px] font-bold leading-none tracking-[-0.01em] text-[#0A2A52]"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            TestFlight
           </div>
-          <div className="mt-1 text-[17px] font-semibold text-[#0A2A52]">
-            iOS 内测通过 TestFlight 进行
-          </div>
-          <p className="mt-1.5 text-[13.5px] leading-[1.65] text-[#3B5374]">
-            先安装 Apple 官方 <b className="text-[#0A2A52]">TestFlight</b>，再打开下方邀请链接即可加入。全程走 Apple 官方流程，安全合规。
-          </p>
         </div>
-        <span className="hidden text-[#3B82C4] transition-transform group-hover:translate-x-1 md:inline">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <span className="hidden flex-none text-[#3B82C4] transition-transform group-hover:translate-x-1 md:inline">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 6l6 6-6 6" />
           </svg>
         </span>
       </div>
-      <div className="mt-3 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0A2A52] md:hidden">
+
+      <p className="mt-5 text-[14px] leading-[1.7] text-[#3B5374]">
+        Apple 官方测试工具，免费。先安装 TestFlight，再打开下方邀请链接即可加入内测 — 全程走 Apple 官方流程，安全合规。
+      </p>
+
+      <div className="mt-4 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#0A2A52]">
         去 App Store 安装
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
           <path d="M7 17L17 7M8 7h9v9" />
