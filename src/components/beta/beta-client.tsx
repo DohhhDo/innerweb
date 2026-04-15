@@ -10,10 +10,9 @@ interface Props {
   androidUrl: string;
   iosQr: string;
   androidQr: string;
-  pageQr: string;
 }
 
-function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
+function BetaInner({ iosUrl, androidUrl, iosQr, androidQr }: Props) {
   const router = useRouter();
   const search = useSearchParams();
   const urlOs = search.get("os");
@@ -44,16 +43,16 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
       {wechat && (
         <div className="sticky top-20 z-40 border-y border-[#E6E8EC] bg-[#0A0F1E] text-white">
           <div className="mx-auto flex max-w-[720px] items-center gap-4 px-6 py-4 md:px-8">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={pageQr}
-              alt="本页二维码"
-              className="h-20 w-20 flex-none rounded-sm bg-white p-1.5"
-            />
-            <div className="flex-1 text-[13.5px] leading-[1.55]">
-              <div className="font-semibold text-[15px]">在微信里装不了应用</div>
+            <div className="flex flex-none items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/browser-safari.webp" alt="Safari" className="h-12 w-12" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/browser-edge.png" alt="Edge" className="h-12 w-12" />
+            </div>
+            <div className="min-w-0 flex-1 text-[13.5px] leading-[1.55]">
+              <div className="text-[15px] font-semibold">在微信里装不了应用</div>
               <div className="mt-1 text-white/70">
-                点右上角 <b className="text-white">⋯ → 在浏览器打开</b>，或长按左侧二维码识别。
+                点右上角 <b className="text-white">⋯ → 在浏览器打开</b>（iOS 选 Safari，Android 选 Edge / Chrome / 自带）。
               </div>
             </div>
           </div>
