@@ -10,9 +10,10 @@ interface Props {
   androidUrl: string;
   iosQr: string;
   androidQr: string;
+  pageQr: string;
 }
 
-function BetaInner({ iosUrl, androidUrl, iosQr, androidQr }: Props) {
+function BetaInner({ iosUrl, androidUrl, iosQr, androidQr, pageQr }: Props) {
   const router = useRouter();
   const search = useSearchParams();
   const urlOs = search.get("os");
@@ -43,7 +44,7 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr }: Props) {
           <div className="mx-auto flex max-w-[720px] items-center gap-4 px-6 py-4 md:px-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/page-qr.png"
+              src={pageQr}
               alt="本页二维码"
               className="h-20 w-20 flex-none rounded-sm bg-white p-1.5"
             />
@@ -119,9 +120,9 @@ function BetaInner({ iosUrl, androidUrl, iosQr, androidQr }: Props) {
           <div className="flex items-center gap-6">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/feedback-qr.jpg"
+              src="/feedback-qr.png"
               alt="蓝卡内部测试群二维码"
-              className="h-32 w-32 flex-none rounded-md object-cover"
+              className="h-32 w-32 flex-none rounded-md object-contain bg-white"
             />
             <div className="flex-1">
               <div className="text-[13px] text-[#8A909B]">反馈群</div>

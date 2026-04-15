@@ -29,7 +29,12 @@ async function makeQr(url: string) {
 }
 
 export default async function BetaPage() {
-  const [iosQr, andQr] = await Promise.all([makeQr(IOS_URL), makeQr(ANDROID_URL)]);
+  const pageUrl = getCanonicalUrl("/beta");
+  const [iosQr, andQr, pageQr] = await Promise.all([
+    makeQr(IOS_URL),
+    makeQr(ANDROID_URL),
+    makeQr(pageUrl),
+  ]);
 
   return (
     <BetaClient
@@ -37,6 +42,7 @@ export default async function BetaPage() {
       androidUrl={ANDROID_URL}
       iosQr={iosQr}
       androidQr={andQr}
+      pageQr={pageQr}
     />
   );
 }
