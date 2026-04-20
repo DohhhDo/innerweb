@@ -137,6 +137,88 @@
   }
   .warn .ic { display: none; }
   .warn b { color: var(--ink); font-weight: 600; }
+  .ios-warn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 28px 30px;
+  }
+  .ios-warn .l1 {
+    font-size: 58px;
+    line-height: 0.98;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+  .ios-warn .l2 {
+    font-size: 46px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--brand);
+  }
+  .invite-box {
+    margin-top: 26px;
+    padding: 28px 30px;
+    border-radius: 28px;
+    background: #E9F3FF;
+    box-shadow: 0 18px 38px rgba(46, 110, 186, 0.12);
+  }
+  .invite-box .k {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #5D8CC4;
+    text-transform: uppercase;
+  }
+  .invite-box .t {
+    margin-top: 10px;
+    font-size: 46px;
+    line-height: 0.98;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: #0A2A52;
+  }
+  .invite-btn {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: 100%;
+    padding: 22px 26px;
+    border-radius: 22px;
+    background: #0A2A52;
+    color: #fff;
+    box-shadow: 0 18px 40px rgba(10, 42, 82, 0.22);
+  }
+  .invite-btn .txt {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .invite-btn .txt strong {
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 800;
+  }
+  .invite-btn .txt span {
+    font-size: 18px;
+    line-height: 1.2;
+    color: rgba(255,255,255,0.66);
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  .invite-btn .arr {
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    flex: none;
+  }
 
 </style>
 </head>
@@ -151,27 +233,47 @@
   </div>
 
   <h1>三步装好 <span class="sub">iOS 内测版</span></h1>
-  <p class="lede">通过 Apple 官方 TestFlight 安装。先下载 TestFlight，再回来点邀请链接。</p>
+  <p class="lede">先下载 TestFlight，再回来点链接。</p>
 
-  <div class="warn">
+  <div class="warn ios-warn">
     <div class="ic">!</div>
-    <div>请按顺序操作：先在 <b>Safari</b> 里安装 <b>TestFlight</b>，安装完成后回到本页，再点下方邀请链接。微信里直接点会失败。</div>
+    <div class="l1">先下载<br>TestFlight</div>
+    <div class="l2">下完回来<br>点链接</div>
+  </div>
+
+  <div class="invite-box">
+    <div class="k">安装完成后</div>
+    <div class="t">回到这里<br>直接打开邀请链接</div>
+    <a class="invite-btn" href="https://testflight.apple.com/join/39TDzfY9" target="_blank" rel="noopener noreferrer">
+      <div class="txt">
+        <strong>打开邀请链接</strong>
+        <span>testflight.apple.com/join/39TDzfY9</span>
+      </div>
+      <div class="arr">↗</div>
+    </a>
   </div>
 
   <div class="steps">
     <div class="step">
       <div class="n">1</div>
       <div>
-        <div class="t">先下载并安装 TestFlight</div>
-        <div class="d">打开 <b>App Store</b> 搜索 <b>TestFlight</b>，点「获取」。Apple 官方 App，免费。装好后回到本页继续下一步。</div>
+        <div class="t">先装 TestFlight</div>
+        <div class="d">去 <b>App Store</b> 下载，装好后回到本页。</div>
       </div>
     </div>
 
     <div class="step">
       <div class="n">2</div>
       <div style="flex:1">
-        <div class="t">回到本页，再点邀请链接</div>
-        <div class="d">装好 TestFlight 后，用相机扫下方二维码，或在 <b>Safari</b> 打开链接。</div>
+        <div class="t">回来点链接</div>
+        <div class="d">装好后再点；也可以扫码，或在 <b>Safari</b> 打开链接。</div>
+        <a class="invite-btn" href="https://testflight.apple.com/join/39TDzfY9" target="_blank" rel="noopener noreferrer">
+          <div class="txt">
+            <strong>打开邀请链接</strong>
+            <span>testflight.apple.com/join/39TDzfY9</span>
+          </div>
+          <div class="arr">↗</div>
+        </a>
         <div class="qrblock">
           <div class="qr"><img data-qr="https://testflight.apple.com/join/39TDzfY9" /></div>
           <div class="url">testflight.apple.com/join/39TDzfY9</div>

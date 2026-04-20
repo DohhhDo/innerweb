@@ -303,23 +303,131 @@ function QrAside({ qr, label }: { qr: string; label: string }) {
 
 function IosReturnReminder() {
   return (
-    <div className="rounded-2xl border border-[#BFD9FF] bg-[#F7FBFF] px-5 py-4 text-[#21476F]">
-      <div className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#3A7CC9]">
-        先下载，再回来点链接
+    <div className="rounded-[28px] border border-[#BFD9FF] bg-[#F7FBFF] px-6 py-6 text-[#0A2A52] md:px-8 md:py-8">
+      <div
+        className="text-[34px] font-semibold leading-[0.98] tracking-[-0.04em] md:text-[52px]"
+        style={{ fontFamily: "var(--font-display)" }}
+      >
+        先下载
+        <br />
+        TestFlight
       </div>
-      <p className="mt-2 text-[15px] leading-[1.65]">
-        先从 App Store 安装 <b className="text-[#0A2A52]">TestFlight</b>。下载完成后，请回到当前页面，再点下面的邀请链接加入内测。
-      </p>
+      <div className="mt-4 text-[26px] font-semibold leading-[1.02] tracking-[-0.03em] text-[#2E6EBA] md:mt-5 md:text-[40px]">
+        下完回来
+        <br />
+        点链接
+      </div>
     </div>
   );
 }
 
-function TestFlightCallout() {
+const IOS_INVITE_UNLOCK_KEY = "beta-ios-invite-unlocked";
+
+function ConfirmInstalledButton({
+  installed,
+  onClick,
+}: {
+  installed: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex items-center justify-center rounded-full px-5 py-3 text-[15px] font-semibold transition ${
+        installed
+          ? "bg-[#0A2A52] text-white"
+          : "bg-[#2E6EBA] text-white hover:bg-[#255da1] active:scale-[0.99]"
+      }`}
+    >
+      {installed ? "已装好，继续点链接" : "我已装好 TestFlight"}
+    </button>
+  );
+}
+
+function InvitePrimaryButton({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group inline-flex w-full items-center justify-between rounded-[22px] bg-[#0A2A52] px-5 py-4 text-white shadow-[0_18px_40px_rgba(10,42,82,0.22)] transition hover:translate-y-[-1px] hover:bg-[#123966] active:translate-y-0"
+    >
+      <div>
+        <div className="text-[17px] font-semibold leading-none">{label}</div>
+        <div className="mt-1 text-[13px] text-white/66">testflight.apple.com/join/39TDzfY9</div>
+      </div>
+      <span className="ml-4 inline-flex h-11 w-11 flex-none items-center justify-center rounded-full bg-white/12 text-white transition group-hover:bg-white/18">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M7 17L17 7M8 7h9v9" />
+        </svg>
+      </span>
+    </a>
+  );
+}
+
+function InviteTopCard({
+  url,
+  unlocked,
+  onUnlock,
+}: {
+  url: string;
+  unlocked: boolean;
+  onUnlock: () => void;
+}) {
+  return (
+    <div className="rounded-[28px] bg-[#E9F3FF] p-5 text-[#0A2A52] shadow-[0_18px_38px_rgba(46,110,186,0.12)]">
+      <div className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#5D8CC4]">
+        安装完成后
+      </div>
+      <div
+        className="mt-2 text-[28px] font-semibold leading-[0.98] tracking-[-0.04em] md:text-[34px]"
+        style={{ fontFamily: "var(--font-display)" }}
+      >
+        回到这里
+        <br />
+        直接打开邀请链接
+      </div>
+      <div className="mt-5">
+        {unlocked ? (
+          <InvitePrimaryButton href={url} label="打开邀请链接" />
+        ) : (
+          <button
+            type="button"
+            onClick={onUnlock}
+            className="inline-flex w-full items-center justify-center rounded-[22px] bg-[#2E6EBA] px-5 py-4 text-[17px] font-semibold text-white shadow-[0_18px_40px_rgba(46,110,186,0.24)] transition hover:bg-[#255da1] active:scale-[0.995]"
+          >
+            我已装好，解锁邀请链接
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function LockedInviteCard({ onConfirm }: { onConfirm: () => void }) {
+  return (
+    <div className="mt-4 rounded-2xl border border-dashed border-[#C9D9EA] bg-[#F8FBFD] p-5 text-[#45607F]">
+      <div className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#6B89A8]">
+        链接未解锁
+      </div>
+      <p className="mt-2 text-[15px] leading-[1.7]">
+        先去上面安装 <b className="text-[#0A2A52]">TestFlight</b>，装好后点下面按钮，再继续加入内测。
+      </p>
+      <div className="mt-4">
+        <ConfirmInstalledButton installed={false} onClick={onConfirm} />
+      </div>
+    </div>
+  );
+}
+
+function TestFlightCallout({ onInstallStarted }: { onInstallStarted: () => void }) {
   return (
     <a
       href="https://apps.apple.com/us/app/testflight/id899247664"
       target="_blank"
       rel="noopener noreferrer"
+      onClick={onInstallStarted}
       className="group block rounded-2xl border border-[#D6E7FF] bg-gradient-to-br from-[#F4F9FF] to-[#EAF2FF] p-6 transition hover:border-[#9CC4FF] hover:from-[#EEF5FF] hover:to-[#E0EBFF]"
     >
       {/* Top row: icon + title aligned */}
@@ -361,20 +469,54 @@ function TestFlightCallout() {
 }
 
 function IosGuide({ url, qr }: { url: string; qr: string }) {
+  const [inviteUnlocked, setInviteUnlocked] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (window.sessionStorage.getItem(IOS_INVITE_UNLOCK_KEY) === "1") {
+        setInviteUnlocked(true);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const unlockInvite = () => {
+    setInviteUnlocked(true);
+    try {
+      window.sessionStorage.setItem(IOS_INVITE_UNLOCK_KEY, "1");
+    } catch {
+      // ignore
+    }
+  };
+
   return (
     <div className="flex flex-col gap-12">
       <IosReturnReminder />
 
-      <TestFlightCallout />
+      <InviteTopCard url={url} unlocked={inviteUnlocked} onUnlock={unlockInvite} />
 
-      <Step n="01" title="先下载并安装 TestFlight">
-        打开 <b className="text-[#0A0F1E]">App Store</b> 搜索 <b className="text-[#0A0F1E]">TestFlight</b>，或直接点上方的「去 App Store 安装」。Apple 官方 App，免费。装好后回到本页继续下一步。
+      <TestFlightCallout onInstallStarted={unlockInvite} />
+
+      <Step n="01" title="先装 TestFlight">
+        去 <b className="text-[#0A0F1E]">App Store</b> 下载，装好后回到本页。
+        <div className="mt-4">
+          <ConfirmInstalledButton installed={inviteUnlocked} onClick={unlockInvite} />
+        </div>
       </Step>
 
-      <Step n="02" title="回到本页，再打开邀请链接">
-        装好 TestFlight 后，再点下方按钮直接前往；也可以用 Safari 打开，或用 iPhone 相机扫码。
-        <InlineCTA href={url} label="前往 TestFlight" />
-        <QrAside qr={qr} label="testflight.apple.com/join/39TDzfY9" />
+      <Step n="02" title="回来点链接">
+        {inviteUnlocked ? (
+          <>
+            现在直接点这个大按钮；也可以用 Safari 打开，或用 iPhone 相机扫码。
+            <div className="mt-4">
+              <InvitePrimaryButton href={url} label="打开邀请链接" />
+            </div>
+            <QrAside qr={qr} label="testflight.apple.com/join/39TDzfY9" />
+          </>
+        ) : (
+          <LockedInviteCard onConfirm={unlockInvite} />
+        )}
       </Step>
 
       <Step n="03" title="接受 → 安装">
