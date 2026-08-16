@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 const IOS_URL = "https://testflight.apple.com/join/39TDzfY9";
 const ANDROID_URL =
-  "https://img.vindo.cn/nex-go/apks/cirvlave-v1.0.0-build1-20260414-2686de12.apk";
+  "https://media.circlave.com/circlave/%E8%93%9D%E5%8D%A1-v1.0.0%2B1-20260816.apk";
 const HARMONY_INVITE_URL = process.env.NEXT_PUBLIC_HARMONY_BETA_URL;
 
 export default function BetaPage() {
