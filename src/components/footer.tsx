@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const HIDDEN_PAGES: string[] = ["/this-is"];
+const HIDDEN_PAGES: string[] = ["/this-is", "/beta"];
 
 export function Footer() {
   const pathname = usePathname();
