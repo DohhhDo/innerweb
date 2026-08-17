@@ -7,9 +7,9 @@ import {
   AppleLogo,
   AppStoreLogo,
   ArrowLeft,
+  ArrowUpRight,
   CaretRight,
   CheckCircle,
-  Copy,
   Cpu,
   DeviceMobile,
   DownloadSimple,
@@ -57,7 +57,9 @@ function BetaInner({ iosInviteUrl, androidDownloadUrl, harmonyInviteUrl }: Props
   const [showSupport, setShowSupport] = useState(false);
 
   useEffect(() => {
-    setIsWechat(/MicroMessenger/i.test(navigator.userAgent));
+    const detected = /MicroMessenger/i.test(navigator.userAgent);
+    setIsWechat(detected);
+    setShowBrowserHelp(detected);
   }, []);
 
   const updateUrl = (nextPlatform: Platform | null) => {
@@ -393,21 +395,32 @@ function DisabledButton({ label }: { label: string }) {
 }
 
 function BrowserHelp({ onClose }: { onClose: () => void }) {
-  const [copied, setCopied] = useState(false);
-
-  const copyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-    } catch {
-      setCopied(false);
-    }
-  };
-
   return (
-    <Modal title="请在浏览器中打开" description="微信内无法完成下载。点右上角菜单，选择“在浏览器打开”。" onClose={onClose}>
-      <PrimaryButton onClick={copyLink} label={copied ? "已复制" : "复制本页链接"} icon={<Copy size={19} weight="regular" />} />
-    </Modal>
+    <div className="fixed inset-0 z-[120] bg-[#161823]/85 text-white" role="dialog" aria-modal="true" aria-labelledby="browser-help-title">
+      <div className="absolute right-4 top-3 flex items-start gap-2 pt-[env(safe-area-inset-top)]">
+        <div className="mt-8 border border-white/20 bg-white px-4 py-3 text-right text-[#161823] shadow-[0_8px_24px_rgba(0,0,0,0.18)]">
+          <p className="text-[12px] font-normal text-[#686B73]">点击右上角菜单</p>
+          <p className="mt-0.5 whitespace-nowrap text-[15px] font-medium">在浏览器打开</p>
+        </div>
+        <ArrowUpRight size={34} weight="regular" aria-hidden="true" className="mt-1 flex-none" />
+      </div>
+
+      <div className="flex h-full flex-col items-center justify-center px-8 text-center">
+        <div className="flex h-16 w-16 items-center justify-center border border-white/15 bg-white/10">
+          <DeviceMobile size={34} weight="duotone" aria-hidden="true" />
+        </div>
+        <h2 id="browser-help-title" className="mt-6 text-[20px] font-medium">请在浏览器打开</h2>
+        <p className="mt-2 text-[13px] leading-6 text-white/65">微信内无法完成下载或加入内测</p>
+      </div>
+
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute bottom-[max(24px,env(safe-area-inset-bottom))] left-1/2 min-h-11 -translate-x-1/2 border border-white/20 px-5 text-[13px] font-normal text-white/75 active:bg-white/10"
+      >
+        暂时留在微信
+      </button>
+    </div>
   );
 }
 
