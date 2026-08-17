@@ -19,6 +19,7 @@ import {
 } from "@phosphor-icons/react";
 
 type Platform = "android" | "ios" | "harmony-legacy" | "harmony-native";
+type EmbeddedBrowser = "wechat" | "qq";
 
 interface Props {
   iosInviteUrl: string;
@@ -46,20 +47,26 @@ function parsePlatform(value: string | null): Platform | null {
   return value && PLATFORM_IDS.has(value as Platform) ? (value as Platform) : null;
 }
 
+function detectEmbeddedBrowser(userAgent: string): EmbeddedBrowser | null {
+  if (/MicroMessenger/i.test(userAgent)) return "wechat";
+  if (/(?:^|\s)QQ\/[\d.]+/i.test(userAgent)) return "qq";
+  return null;
+}
+
 function BetaInner({ iosInviteUrl, androidDownloadUrl, harmonyInviteUrl }: Props) {
   const router = useRouter();
   const search = useSearchParams();
   const initialPlatform = parsePlatform(search.get("platform"));
   const [platform, setPlatform] = useState<Platform | null>(initialPlatform);
   const [step, setStep] = useState(0);
-  const [isWechat, setIsWechat] = useState(false);
+  const [embeddedBrowser, setEmbeddedBrowser] = useState<EmbeddedBrowser | null>(null);
   const [showBrowserHelp, setShowBrowserHelp] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
 
   useEffect(() => {
-    const detected = /MicroMessenger/i.test(navigator.userAgent);
-    setIsWechat(detected);
-    setShowBrowserHelp(detected);
+    const detected = detectEmbeddedBrowser(navigator.userAgent);
+    setEmbeddedBrowser(detected);
+    setShowBrowserHelp(detected !== null);
   }, []);
 
   const updateUrl = (nextPlatform: Platform | null) => {
@@ -86,7 +93,7 @@ function BetaInner({ iosInviteUrl, androidDownloadUrl, harmonyInviteUrl }: Props
   };
 
   const beforeExternalAction = (nextStep?: number) => {
-    if (isWechat) {
+    if (embeddedBrowser) {
       setShowBrowserHelp(true);
       return false;
     }
@@ -146,7 +153,9 @@ function BetaInner({ iosInviteUrl, androidDownloadUrl, harmonyInviteUrl }: Props
         </div>
       </main>
 
-      {showBrowserHelp && <BrowserHelp onClose={() => setShowBrowserHelp(false)} />}
+      {showBrowserHelp && embeddedBrowser && (
+        <BrowserHelp browser={embeddedBrowser} onClose={() => setShowBrowserHelp(false)} />
+      )}
       {showSupport && <SupportPanel onClose={() => setShowSupport(false)} />}
     </div>
   );
@@ -394,7 +403,9 @@ function DisabledButton({ label }: { label: string }) {
   );
 }
 
-function BrowserHelp({ onClose }: { onClose: () => void }) {
+function BrowserHelp({ browser, onClose }: { browser: EmbeddedBrowser; onClose: () => void }) {
+  const browserName = browser === "wechat" ? "微信" : "QQ";
+
   return (
     <div className="fixed inset-0 z-[120] bg-[#161823]/85 text-white" role="dialog" aria-modal="true" aria-labelledby="browser-help-title">
       <div className="absolute right-4 top-3 flex items-start gap-2 pt-[env(safe-area-inset-top)]">
@@ -410,7 +421,7 @@ function BrowserHelp({ onClose }: { onClose: () => void }) {
           <DeviceMobile size={34} weight="duotone" aria-hidden="true" />
         </div>
         <h2 id="browser-help-title" className="mt-6 text-[20px] font-medium">请在浏览器打开</h2>
-        <p className="mt-2 text-[13px] leading-6 text-white/65">微信内无法完成下载或加入内测</p>
+        <p className="mt-2 text-[13px] leading-6 text-white/65">{browserName} 内无法完成下载或加入内测</p>
       </div>
 
       <button
@@ -418,7 +429,7 @@ function BrowserHelp({ onClose }: { onClose: () => void }) {
         onClick={onClose}
         className="absolute bottom-[max(24px,env(safe-area-inset-bottom))] left-1/2 min-h-11 -translate-x-1/2 border border-white/20 px-5 text-[13px] font-normal text-white/75 active:bg-white/10"
       >
-        暂时留在微信
+        暂时留在{browserName}
       </button>
     </div>
   );
