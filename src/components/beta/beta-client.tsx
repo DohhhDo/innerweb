@@ -42,8 +42,6 @@ const PLATFORM_OPTIONS: PlatformOption[] = [
 
 const PLATFORM_IDS = new Set<Platform>(PLATFORM_OPTIONS.map((item) => item.id));
 const TESTFLIGHT_APP_URL = "https://apps.apple.com/cn/app/testflight/id899247664";
-const APP_DEEP_LINK = "circlave://";
-
 function parsePlatform(value: string | null): Platform | null {
   return value && PLATFORM_IDS.has(value as Platform) ? (value as Platform) : null;
 }
@@ -289,33 +287,22 @@ function IosGuide({ iosInviteUrl, beforeExternalAction }: GuideProps) {
 }
 
 function ApkGuide({
-  step,
-  setStep,
   androidDownloadUrl,
   beforeExternalAction,
   legacyHarmony,
 }: GuideProps & { legacyHarmony: boolean }) {
   const platform = legacyHarmony ? "鸿蒙 5 及以前" : "Android";
 
-  if (step === 0) {
-    return (
-      <GuideFrame
-        platform={platform}
-        step={0}
-        total={2}
-        title={legacyHarmony ? "下载 Android 版" : "下载蓝卡"}
-        description={legacyHarmony ? "当前系统可以直接安装 APK。" : "下载安装包。"}
-        icon={<DownloadSimple size={52} weight="duotone" />}
-      >
-        <PrimaryLink href={androidDownloadUrl} onClick={() => beforeExternalAction(1)} label="下载 APK" icon={<DownloadSimple size={19} weight="regular" />} />
-      </GuideFrame>
-    );
-  }
-
   return (
-    <GuideFrame platform={platform} step={1} total={2} title="安装并打开" description="打开 APK，按提示完成安装。" icon={<DeviceMobile size={52} weight="duotone" />}>
-      <PrimaryLink href={APP_DEEP_LINK} onClick={() => beforeExternalAction()} label="打开蓝卡" icon={<DeviceMobile size={19} weight="regular" />} />
-      <SecondaryButton onClick={() => setStep(0)} label="重新下载" icon={<DownloadSimple size={17} weight="regular" />} />
+    <GuideFrame
+      platform={platform}
+      step={0}
+      total={1}
+      title={legacyHarmony ? "下载 Android 版" : "下载蓝卡"}
+      description="下载后打开 APK，按提示安装。"
+      icon={<DownloadSimple size={52} weight="duotone" />}
+    >
+      <PrimaryLink href={androidDownloadUrl} onClick={() => beforeExternalAction()} label="下载 APK" icon={<DownloadSimple size={19} weight="regular" />} />
       <p className="mt-4 text-center text-[12px] leading-5 text-[#9B9DA4]">系统询问时，允许当前浏览器安装应用。</p>
     </GuideFrame>
   );
