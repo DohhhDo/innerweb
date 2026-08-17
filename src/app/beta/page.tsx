@@ -18,7 +18,7 @@ const IOS_URL = "https://testflight.apple.com/join/VHvnAXQx";
 const ANDROID_URL =
   "https://media.circlave.com/circlave/%E8%93%9D%E5%8D%A1-v1.0.0%2B1-20260816.apk";
 const HARMONY_INVITE_URL =
-  "https://appgallery.huawei.com/link/invite-test-wap?taskId=6e0de69739477ea4f0610bcea7c34dac";
+  "https://appgallery.huawei.com/link/invite-test-wap?taskId=6e0de69739477ea4f0610bcea7c34dac&invitationCode=7NVaCryQjg0";
 
 export default function BetaPage() {
   return (

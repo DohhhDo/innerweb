@@ -9,7 +9,6 @@ import {
   ArrowLeft,
   ArrowUpRight,
   CaretRight,
-  CheckCircle,
   Cpu,
   DeviceMobile,
   DownloadSimple,
@@ -24,7 +23,7 @@ type EmbeddedBrowser = "wechat" | "qq";
 interface Props {
   iosInviteUrl: string;
   androidDownloadUrl: string;
-  harmonyInviteUrl?: string;
+  harmonyInviteUrl: string;
 }
 
 interface PlatformOption {
@@ -205,7 +204,7 @@ interface GuideProps {
   setStep: (step: number) => void;
   iosInviteUrl: string;
   androidDownloadUrl: string;
-  harmonyInviteUrl?: string;
+  harmonyInviteUrl: string;
   beforeExternalAction: (nextStep?: number) => boolean;
 }
 
@@ -319,26 +318,10 @@ function ApkGuide({
   );
 }
 
-function HarmonyNativeGuide({ step, setStep, harmonyInviteUrl, beforeExternalAction }: GuideProps) {
-  if (step === 0) {
-    return (
-      <GuideFrame platform="鸿蒙 6 及以后" step={0} total={2} title="加入鸿蒙内测" description="打开邀请，加入蓝卡内测。" icon={<LinkSimple size={52} weight="duotone" />}>
-        {harmonyInviteUrl ? (
-          <PrimaryLink href={harmonyInviteUrl} onClick={() => beforeExternalAction(1)} label="打开内测邀请" icon={<LinkSimple size={19} weight="regular" />} />
-        ) : (
-          <>
-            <DisabledButton label="内测链接待配置" />
-            <p className="mt-4 text-center text-[12px] text-[#9B9DA4]">请点右上角“帮助”联系我们。</p>
-          </>
-        )}
-      </GuideFrame>
-    );
-  }
-
+function HarmonyNativeGuide({ harmonyInviteUrl, beforeExternalAction }: GuideProps) {
   return (
-    <GuideFrame platform="鸿蒙 6 及以后" step={1} total={2} title="完成安装" description="按页面提示下载并安装。" icon={<CheckCircle size={52} weight="duotone" />}>
-      {harmonyInviteUrl && <PrimaryLink href={harmonyInviteUrl} onClick={() => beforeExternalAction()} label="返回内测页面" icon={<LinkSimple size={19} weight="regular" />} />}
-      <SecondaryButton onClick={() => setStep(0)} label="上一步" />
+    <GuideFrame platform="鸿蒙 6 及以后" step={0} total={1} title="加入原生鸿蒙内测" description="打开链接，点“开始测试”并安装。" icon={<LinkSimple size={52} weight="duotone" />}>
+      <PrimaryLink href={harmonyInviteUrl} onClick={() => beforeExternalAction()} label="打开华为邀请页" icon={<LinkSimple size={19} weight="regular" />} />
     </GuideFrame>
   );
 }
@@ -390,14 +373,6 @@ function SecondaryButton({ onClick, label, icon }: { onClick: () => void; label:
   return (
     <button type="button" onClick={onClick} className="mt-3 flex min-h-[48px] w-full items-center justify-center gap-2 border border-[#E0E1E3] bg-white px-5 text-[14px] font-medium text-[#4E5158] transition hover:bg-[#F7F7F8]">
       {icon}
-      {label}
-    </button>
-  );
-}
-
-function DisabledButton({ label }: { label: string }) {
-  return (
-    <button type="button" disabled className="flex min-h-[52px] w-full cursor-not-allowed items-center justify-center bg-[#E8E9EB] px-5 text-[15px] font-medium text-[#9B9DA4]">
       {label}
     </button>
   );
